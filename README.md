@@ -1,6 +1,6 @@
 # Smart-Mirror
 
-# This is config.jason file
+#  config.jason file
 
 /* Magic Mirror Config Sample
 
