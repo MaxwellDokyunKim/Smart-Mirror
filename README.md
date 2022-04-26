@@ -1,6 +1,6 @@
 # Smart-Mirror
 
-# Download config.jason file
+# Download config.json file
 
 /* Magic Mirror Config Sample
 
