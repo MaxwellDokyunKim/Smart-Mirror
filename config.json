@@ -1,0 +1,294 @@
+/* Magic Mirror Config Sample
+
+ *
+
+ * By Michael Teeuw https://michaelteeuw.nl
+
+ * MIT Licensed.
+
+ *
+
+ * For more information on how you can configure this file
+
+ * see https://docs.magicmirror.builders/getting-started/configuration.html#general
+
+ * and https://docs.magicmirror.builders/modules/configuration.html
+
+ */
+
+let config = {
+
+	address: "0.0.0.0", 	// Address to listen on, can be:
+							// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
+							// - another specific IPv4/6 to listen on a specific interface
+							// - "0.0.0.0", "::" to listen on any interface
+							// Default, when address config is left out or empty, is "localhost"
+	electronOptions: {
+			webPreferences: {
+				webviewTag: true
+			}
+		},
+	port: 8569,
+	basePath: "/", 	// The URL path where MagicMirror is hosted. If you are using a Reverse proxy
+					// you must set the sub path here. basePath must end with a /
+	ipWhitelist:[], 	// Set [] to allow all IP addresses
+															// or add a specific IPv4 of 192.168.1.5 :
+															// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
+															// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
+															// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.3.0/28"],
+
+ 
+	useHttps: false, 		// Support HTTPS or not, default "false" will use HTTP
+	httpsPrivateKey: "", 	// HTTPS private key path, only require when useHttps is true
+	httpsCertificate: "", 	// HTTPS Certificate path, only require when useHttps is true
+
+	language: "ko",
+	locale: "en-US",
+	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
+	timeFormat: 24,
+	units: "metric",
+	// serverOnly:  true/false/"local" ,
+	// local for armv6l processors, default
+	//   starts serveronly and then starts chrome browser
+	// false, default for all NON-armv6l devices
+	// true, force serveronly mode, because you want to.. no UI on this device
+
+	modules: [
+
+		{
+	module: "MMM-Jast",
+	position: "top_bar",
+	config: {
+
+		maxWidth: "100%",
+		updateIntervalInSeconds: 500,
+		fadeSpeedInSeconds: 150,
+		scroll: "horizontal", // One of ["none", "vertical", "horizontal"]
+		useGrouping: false,
+		currencyStyle: "code", // One of ["code", "symbol", "name"]
+		lastUpdateFormat: "HH:mm",
+		showColors: true,
+		showCurrency: true,
+		showChangePercent: true,
+		showChangeValue: false,
+		showChangeValueCurrency: false,
+		showLastUpdate: false,
+		showPortfolioValue: false,
+		showPortfolioGrowthPercent: false,
+		showPortfolioGrowth: false,
+		numberDecimalsValues: 2,
+		numberDecimalsPercentages: 1,
+		virtualHorizontalMultiplier: 2,
+
+		stocks: [
+			{ name: "BASF", symbol: "BAS.DE", quantity: 10 },
+			{ name: "SAP", symbol: "SAP.DE", quantity: 15 },
+			{ name: "Henkel", symbol: "HEN3.DE" },
+			{ name: "Alibaba", symbol: "BABA"},
+			{ name: "Tesla", symbol: "TSLA"},
+			{ name: "Alphbet(GOOG)", symbol: "GOOG"},
+			{ name: "Amazon", symbol: "AMZN"},
+			{ name: "Apple", symbol: "AAPL"},
+			{ name: "Microsoft", symbol: "MSFT"},
+			{ name: "Taiwan Semiconductor TSMC", symbol: "2330.TW"},
+			{ name: "ASML Holding" , symbol: "ASML"},
+			{ name: "NVIDIA Corp", symbol: "NVDA"},
+			{ name: "Intel Corp", symbol: "INTC"}
+		]
+	}
+},
+		{
+			module: "alert",
+		},
+
+		/*{
+			module: "updatenotification",
+			position: "top_bar"
+		},*/
+
+		{
+			module: "clock",
+			position: "top_left"
+		},
+		{
+			module: 'MMM-MonthCalendar',
+			position: "top_left",
+			header: "",
+			config: {
+				updateDelay: 60,
+				showAdjacentMonths: true
+			}
+		},	
+		{
+			module: "calendar",
+			header: "KDK_김도균의_일정",
+			position: "top_left",
+			config: {
+				calendars: [
+					{
+						symbol: "calendar-check",
+						url: "https://calendar.google.com/calendar/ical/maxwellkdk%40gmail.com/private-883277dc14036e50484faf48c3b0b261/basic.ics"
+					}
+				]
+			}
+		},
+	{
+		module: "MMM-Face-Recognition-SMAI",
+        position: "top_left",
+      config: {
+         prompt: "반갑습니다 김도균님!"
+       }
+     },
+		{
+			module: "compliments",
+			position: "lower_third"
+		},
+		{
+            module: 'MMM-CoinMarketCap',
+            position: "top_right",
+            header: "Cryptocurrencies",
+            config: {
+                apiKey: '725da745-b1b8-452e-8e72-a34300a2a41e',
+                currencies: ['bitcoin', 'ethereum', 'litecoin', 'ripple'],
+                view: 'graphWithChanges',
+                conversion: 'CAD',
+                // See below for more Configuration Options
+            }
+        },
+		{
+			module: "weather",
+			position: "top_right",
+			config: {
+				weatherProvider: "openweathermap",
+				type: "current",
+				location: "Seoul",
+				locationID: "1835847", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
+				apiKey: "38f0fab1ba4ed467631468004ccad370",
+				onlyTemp: true
+			}
+		},
+		{
+		module: 'MMM-AirQuality',
+		position: 'top_right',
+		config: {
+			location: 'korea/seoul/gangnam-gu',
+			lang: "kr"
+		}
+	    },	
+		{
+			module: "weather",
+			position: "top_right",
+			header: "예보",
+			config: {
+				weatherProvider: "openweathermap",
+				type: "forecast",
+				location: "Seoul",
+				locationID: "1835847", //ID from http://bulk.openweathermap.org/sample/city.list.json.gz; unzip the gz file and find your city
+				apiKey: "38f0fab1ba4ed467631468004ccad370"
+			}
+		},
+		 {
+			module: "MMM-MoonPhase",
+			position: "top_right",
+			config: {
+				updateInterval: 43200000,
+				hemisphere: "N",
+				resolution: "detailed",
+				basicColor: "white",
+				title: true,
+				phase: true,
+				x: 200,
+				y: 200,
+				alpha: 0.7
+			}
+		},
+		{
+  module: "MMM-NowPlayingOnSpotify",
+  position: "top_center",
+  config: {
+	showCoverArt: true,
+    clientID: "da25c84afcd44158815622f2b490c7c9",
+    clientSecret: "14c543227ecb463c86c9d45399951afb",
+    accessToken: "BQD8jsjCxPBCD79LvNdYay97Fa_MV_GG4hESjaxdR_AKRHlVrceoy9Ho754kkgckd4Vu0j1GHTnFw0RScv4kuj0f_gVwydEkvpCBn6LASuReDy0tlPA5IT0_dn3PNrXM1NrcdKPS5uUsAYNRuOMRoQofSCkqwVBOnM0bBNNwwlYfjA4zQQ",
+    refreshToken: "AQDDEgIP3uQPFFEy4mqMp72MU0c9u79zzJaaOR7KC4chfgjyLOdEF0Oci6CtFRATasF_rAcjK-vYHQonZTurZ6-tXyvomwamvVADLJDzvaBmYAAlWJ_uK0-FmyGoFGjs8L4"
+    }
+    },
+		{
+			module: "newsfeed",
+			position: "bottom_bar",
+			config: {
+				feeds: [
+					{
+						title: "임베디드 관련소식",
+						url: "https://www.google.co.kr/alerts/feeds/11276920442812238244/7277587300864192810"
+					},
+					{
+						title: "IOT 뉴스",
+						url: "https://www.google.co.kr/alerts/feeds/11276920442812238244/6659835131884830731"
+					},
+					{
+						title: "NASDAQ",
+						url: "https://www.google.co.kr/alerts/feeds/11276920442812238244/8861656511824764446"
+					},
+					{
+						title: "BLOCK-CHAIN",
+						url: "https://www.google.co.kr/alerts/feeds/11276920442812238244/7185014823742052951"
+					}
+				],
+				showSourceTitle: true,
+				showPublishDate: true,
+				broadcastNewsFeeds: true,
+				broadcastNewsUpdates: true
+			}
+		},
+    {
+   module: "MMM-GoogleAssistant",
+   configDeepMerge: true,
+   config: {
+    assistantConfig: {
+      lang: "ko-KR",
+      latitude: 37.386185,
+      longitude: 127.121293,
+    },
+   }
+  },
+   {
+		module: 'Gateway'
+   },
+   {
+		module: "EXT-Detector",
+		position: "top_left",
+		configDeepMerge: true
+	},
+	 /*{
+		module: 'MMM-Screencast',
+		position: 'bottom_right', // This position is for a hidden <div /> and not the screencast window
+		config: {
+			position: 'middle_center',
+			castName: 'Maxwellkdk',
+			height: 300,
+			width: 500,
+		}
+        },*/
+        {
+        module: "MMM-GyeonggiBus",
+        position: "bottom_left",
+        config: {
+                apiBase: "http://apis.data.go.kr/6410000/busarrivalservice/getBusArrivalList",
+                serviceKey: "PJ21HyOyqKXsWO0ODWMx276UtNsfKS%2FwSiymAfvQY6t9E1R5lBxXBOVF6uxgU3GodjKUYIY%2F%2FFOiEeiFzfNUmQ%3D%3D",
+                stationId: 206000515, //Get StationId from https://data.gg.go.kr/portal/data/service/selectServicePage.do?infId=GDKWAGWYRKJYIRVX110226832213&infSeq=1
+                routeId: 234000313, //"버스 노선 조회 서비스"의 "노선번호목록조회" 기능으로 버스 번호를 입력해 해당 버스 번호(노선 번호의) routeId를 얻는다.
+                header: "1500-2번 버스 이매촌.한신.AK프라자 도착 정보", //Header Title
+                updateInterval: 1000*60*1, // 1 minute.
+				},
+		},
+
+	]
+
+};
+
+ 
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+
+if (typeof module !== "undefined") {module.exports = config;}
